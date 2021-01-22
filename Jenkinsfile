@@ -1,6 +1,6 @@
 pipeline {
 environment {
-    registry = "eoliveiralorente/consulta"
+    registry = "eoliveiralorente/api-s3"
     registryCredential = 'dockerhub_id'
     dockerImage = ''
 }
