@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: s3-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-s3 
+  template:
+    metadata:
+      labels:
+        app: api-s3
+    spec:
+      containers:
+        - name: api-s3
+          image: eoliveiralorente/consulta-s3:1.0
+          #resources:
+          #  requests:
+          #    cpu: "0.1"
+          #    memory: "100m"
+          #  limits:
+          #    cpu: "0.2"
+          #    memory: "200m"      
+          ports:
+            - containerPort: 80
