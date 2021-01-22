@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: api-s3
-          image: eoliveiralorente/consulta-s3:1.0
+          image: eoliveiralorente/api-s3:1
           #resources:
           #  requests:
           #    cpu: "0.1"
