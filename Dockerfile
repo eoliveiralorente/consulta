@@ -18,10 +18,6 @@ RUN apt-get update \
 RUN chmod +x kubectl
 RUN mv kubectl /usr/local/bin/
 
-#Credencial
-RUN cd /root && mkdir .aws 
-COPY credentials /root/.aws/
-
 #ALterar mensagem
 RUN echo "teste: Funcional" > /var/www/html/index.html
 RUN echo 'ServerName localhost' >> /etc/apache2/apache2.conf
