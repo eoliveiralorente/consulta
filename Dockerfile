@@ -1,5 +1,6 @@
 FROM ubuntu
 LABEL maintainer="Eduardo.Oliveira"
+
 #Instalar dependencias
 RUN apt-get update \
     && apt-get upgrade -y \
@@ -11,10 +12,18 @@ RUN apt-get update \
     && curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip" \
     && unzip awscli-bundle.zip \
     && ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws \
-    && apt-get clean all 
+    && curl -Lo kubectl https://storage.googleapis.com/kubernetes-release/release/v1.9.0/bin/darwin/amd64/kubectl \
+    && apt-get clean all
 
-#Alterar mensagem
-RUN echo "teste: Funcional " > /var/www/html/index.html
+RUN chmod +x kubectl
+RUN mv kubectl /usr/local/bin/
+
+#Credencial
+RUN cd /root && mkdir .aws 
+COPY credentials /root/.aws/
+
+#ALterar mensagem
+RUN echo "teste: Funcional" > /var/www/html/index.html
 RUN echo 'ServerName localhost' >> /etc/apache2/apache2.conf
 
 #Iniciar apache
