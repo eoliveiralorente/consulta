@@ -13,12 +13,8 @@ RUN apt-get update \
     && ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws \
     && apt-get clean all 
 
-#Credencial
-RUN cd /root && mkdir .aws 
-COPY credentials /root/.aws/
-
-#ALterar mensagem
-RUN aws s3 ls --profile lorente > /var/www/html/index.html
+#Alterar mensagem
+RUN echo "teste: Funcional " > /var/www/html/index.html
 RUN echo 'ServerName localhost' >> /etc/apache2/apache2.conf
 
 #Iniciar apache
