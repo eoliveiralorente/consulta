@@ -38,7 +38,7 @@ environment {
         stage('Deploy') {
             steps {
                 withCredentials([file(credentialsId: 'd52f91b2-fc33-4442-b030-921750c2250f', variable: 'kubeconfig')]) {
-                  sh "kubectl apply -f ."
+                  sh "kubectl apply -f api-autoscaler.yaml"
                   sh "sleep 60"
                   sh "kubectl get all"
                }  
