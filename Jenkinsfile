@@ -42,7 +42,7 @@ environment {
                        sh 'chmod u+x ./kubectl'
                        sh "./kubectl apply -f ."
                        sh "sleep 60"
-                       sh "kubectl get all"
+                       sh "./kubectl get all"
                     }
                 }  
             }
