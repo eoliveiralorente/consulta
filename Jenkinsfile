@@ -1,4 +1,4 @@
-pipeline {
+node {
 environment {
     registry = "eoliveiralorente/api-s3"
     registryCredential = 'dockerhub_id'
