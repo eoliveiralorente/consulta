@@ -37,7 +37,7 @@ environment {
 
         stage('Deploy') {
             steps {
-                kubeconfig(credentialsId: 'd52f91b2-fc33-4442-b030-921750c2250f', serverUrl: '') {
+                kubeconfig(credentialsId: 'd52f91b2-fc33-4442-b030-921750c2250f', serverUrl: 'https://192.168.49.2:8443') {
                   sh "kubectl apply -f ."
                   sh "sleep 60"
                   sh "kubectl get all"
