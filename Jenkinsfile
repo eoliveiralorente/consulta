@@ -1,6 +1,6 @@
 pipeline {
 environment {
-    registry = "eoliveiralorente/site"
+    registry = "eoliveiralorente/api-s3"
     registryCredential = 'dockerhub_id'
     dockerImage = ''
 }
@@ -32,12 +32,16 @@ environment {
                 }
             }
         }
-         stage('Deploy')
+        
+       }
+            
+        stage('Deploy') {
             steps {
+                dockerImage.push()
                 sh "kubectl apply -f ."
                 sh "sleep 60"
                 sh "kubectl get all"
             }
+        }
     }
-}
 }
