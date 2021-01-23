@@ -37,6 +37,7 @@ environment {
 
         stage('Deploy') {
             steps {
+                dockerImage.push()
                 sh "kubectl apply -f ."
                 sh "sleep 60"
                 sh "kubectl get all"
