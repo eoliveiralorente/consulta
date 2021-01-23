@@ -37,9 +37,9 @@ environment {
             
         stage('Deploy') {
             steps {
-                sh "kubectl apply -f api-autoscaler.yaml"
-                sh "sleep 60"
-                sh "kubectl get all"
+                sh 'kubectl apply -f api-autoscaler.yaml'
+                sh 'sleep 60'
+                sh 'kubectl get all'
             }
         }
     }
