@@ -39,7 +39,7 @@ environment {
             steps {
                 script {
                     try{
-                       sh "kubectl apply -f ."
+                       sh "kubectl create -f ."
                        sh "sleep 60"
                        sh "kubectl get all"
                     }
