@@ -28,7 +28,7 @@ environment {
             steps {
                 script {
                 docker.withRegistry('https://registry.hub.docker.com',registryCredential ) {
-                dockerImage.push('5')
+                dockerImage.push()
                 }
             }
         }
@@ -37,7 +37,7 @@ environment {
 
         stage('Deploy') {
             steps {
-                dockerImage.push()
+                dockerImage.push('5')
                 sh "kubectl apply -f ."
                 sh "sleep 60"
                 sh "kubectl get all"
