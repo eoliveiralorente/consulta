@@ -38,11 +38,9 @@ environment {
         stage('Deploy') {
             steps {
                 script {
-                    try{
                        sh "kubectl create -f ."
                        sh "sleep 60"
                        sh "kubectl get all"
-                    }
                 }  
             }
         }
