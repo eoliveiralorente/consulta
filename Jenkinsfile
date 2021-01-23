@@ -29,12 +29,15 @@ environment {
                 script {
                 docker.withRegistry('https://registry.hub.docker.com',registryCredential ) {
                 dockerImage.push()
-                sh "kubectl apply -f ."
-                sh "sleep 60"
-                sh "kubectl get all"
                 }
             }
         }
+         stage('Deploy')
+            steps {
+                sh "kubectl apply -f ."
+                sh "sleep 60"
+                sh "kubectl get all"
+            }
     }
 }
 }
