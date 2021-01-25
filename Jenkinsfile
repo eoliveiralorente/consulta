@@ -27,7 +27,7 @@ environment {
         stage('Scan'){
             steps {
                 sh '''
-                 docker images prune -f
+                 docker images prune -a
                  docker images
                  docker run -d --name db arminc/clair-db:latest
                  sleep 2
