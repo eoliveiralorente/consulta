@@ -29,9 +29,9 @@ environment {
                 sh '''
                  docker rm -f 200d27beb668 8f180ddd2d20
                  docker run -d --name db arminc/clair-db:latest
-                 sleep 20
+                 sleep 2
                  docker run -p 6060:6060 --link db:postgres -d --name clair arminc/clair-local-scan:latest
-                 sleep 1
+                 sleep 2
                  wget https://github.com/arminc/clair-scanner/releases/download/v8/clair-scanner_linux_amd64
                  mv clair-scanner_linux_amd64 clair-scanner
                  chmod +x clair-scanner
