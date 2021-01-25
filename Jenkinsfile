@@ -27,6 +27,7 @@ environment {
         stage('Scan'){
             steps {
                 sh '''
+                 docker rm -f 78ed3a987187 939060d5c8cc
                  docker ps
                  docker run -d --name db arminc/clair-db:latest
                  sleep 2
