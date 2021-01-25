@@ -38,7 +38,7 @@ environment {
             steps {
                 sh '''
                  docker ps 
-                 
+                 docker rm -f 602b9eebaee9 f986e9e0ae6e
                  docker container ls
                  IMAGE=docker.io/eoliveiralorente/api-s3:latest
                  docker run -d --name db arminc/clair-db:latest
