@@ -27,6 +27,7 @@ environment {
         stage('Scan'){
             steps {
                 sh '''
+                 docker ps
                  docker run -d --name db arminc/clair-db:latest
                  sleep 2
                  docker run -p 6060:6060 --link db:postgres -d --name clair arminc/clair-local-scan:latest
