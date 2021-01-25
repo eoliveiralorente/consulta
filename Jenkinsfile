@@ -27,8 +27,11 @@ environment {
         stage('Scan'){
             steps {
                 sh '''
+                 docker image rm -f $(docker image ls)
+                 docker container stop $(docker container ls -aq)
+                 docker container rm $(docker container ls -aq)
+                 docker ps 
                  docker images
-                 docker ps
                  docker run -d --name db arminc/clair-db:latest
                  sleep 2
                  docker run -p 6060:6060 --link db:postgres -d --name clair arminc/clair-local-scan:latest
