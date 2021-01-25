@@ -27,7 +27,7 @@ environment {
         stage('Scan'){
             steps {
                 sh '''
-                 
+                 docker rmi $(docker images -a -q)
                  docker container ls
                  IMAGE = $(docker images --format "{{.Repository}}:{{.Tag}}" | grep eoliveiralorente/api-s3)
                  cat $IMAGE
