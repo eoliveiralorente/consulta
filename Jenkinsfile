@@ -28,7 +28,7 @@ environment {
             steps {
                 sh '''
                  docker container ls
-                 IMAGE = $(docker images --format "{{.Repository}}:{{.Tag}}" | grep eoliveiralorente/api-s3)
+                 IMAGE=eoliveiralorente/api-s3:latest
                  cat $IMAGE
                  docker run -d --name db arminc/clair-db:latest
                  sleep 2
