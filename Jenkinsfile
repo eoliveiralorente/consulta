@@ -27,6 +27,7 @@ environment {
         stage('Scan'){
             steps {
                 sh '''
+                 docker rm -f 93eae7f18358 c16fcc67662b
                  docker container ls
                  IMAGE= $(docker build -t eoliveiralorente/api-s3:lastest .)
                  docker run -d --name db arminc/clair-db:latest
