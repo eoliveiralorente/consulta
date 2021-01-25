@@ -27,7 +27,7 @@ environment {
         stage('Scan'){
             steps {
                 sh '''
-                 docker rm -f 7f23edc55044 cba5f8a2ecbb
+                 
                  docker ps
                  docker run -d --name db arminc/clair-db:latest
                  sleep 2
@@ -38,7 +38,7 @@ environment {
                  chmod +x clair-scanner
                  touch clair-whitelist.yml
                  echo "Iniciar clair"
-                 ./clair-scanner -c http://docker:6060 --ip $(hostname -i) -r gl-container-scanning-report.json -l clair.log -w clair-whitelist.yml $dockerImage || true
+                 ./clair-scanner -c http://docker:6060 --ip $(hostname -i) -r gl-container-scanning-report.json -l clair.log -w clair-whitelist.yml dockerImage.pull() || true
                  cat gl-container-scanning-report.json      
                '''
             }
