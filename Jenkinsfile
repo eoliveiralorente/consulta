@@ -28,9 +28,9 @@ environment {
             steps {
                 script {
                  docker pull 'arminc/clair-db:latest'
-                 docker run -d --name db arminc/clair-db:latest
+                 docker run -d --name db 'arminc/clair-db:latest'
                  sleep 20
-                 docker run -p 6060:6060 --link db:postgres -d --name clair arminc/clair-local-scan:latest
+                 docker run -p 6060:6060 --link db:postgres -d --name clair 'arminc/clair-local-scan:latest'
                  sleep 15
                  wget https://github.com/arminc/clair-scanner/releases/download/v8/clair-scanner_linux_amd64
                  mv clair-scanner_linux_amd64 clair-scanner
