@@ -38,9 +38,9 @@ environment {
             steps {
                 sh '''
                  docker ps 
-                 docker rm -f 0773dd2e39d7 e820c0384d3f
+                 
                  docker container ls
-                 IMAGE=$(docker pull eoliveiralorente/api-s3:latest)
+                 IMAGE=docker.io/eoliveiralorente/api-s3:latest
                  docker run -d --name db arminc/clair-db:latest
                  sleep 2
                  docker run -p 6060:6060 --link db:postgres -d --name clair arminc/clair-local-scan:latest
