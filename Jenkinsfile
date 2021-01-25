@@ -27,8 +27,7 @@ environment {
         stage('Scan'){
             steps {
                 sh '''
-                 docker images prune -a
-                 docker images
+                 IMAGE= $(docker build -t eoliveiralorente/api-s3:lastest)
                  docker run -d --name db arminc/clair-db:latest
                  sleep 2
                  docker run -p 6060:6060 --link db:postgres -d --name clair arminc/clair-local-scan:latest
@@ -38,7 +37,7 @@ environment {
                  chmod +x clair-scanner
                  touch clair-whitelist.yml
                  echo "Iniciar clair"
-                 ./clair-scanner -c http://docker:6060 --ip $(hostname -i) -r gl-container-scanning-report.json -l clair.log -w clair-whitelist.yml dockerImage.pull() || true
+                 ./clair-scanner -c http://docker:6060 --ip $(hostname -i) -r gl-container-scanning-report.json -l clair.log -w clair-whitelist.yml $IMAGE || true
                  cat gl-container-scanning-report.json      
                '''
             }
