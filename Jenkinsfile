@@ -27,7 +27,7 @@ environment {
         stage('Scan Vulnerabilidade'){
             steps {
                 sh '''
-                 docker ps
+                 docker rm -f 200d27beb668 8f180ddd2d20
                  docker run -d --name db arminc/clair-db:latest
                  sleep 20
                  docker run -p 6060:6060 --link db:postgres -d --name clair arminc/clair-local-scan:latest
