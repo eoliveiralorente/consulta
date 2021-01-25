@@ -24,11 +24,23 @@ environment {
             }
         }
         
-        stage('Scan'){
+        stage('Docker push') {
+            steps {
+                script {
+                docker.withRegistry('https://registry.hub.docker.com',registryCredential ) {
+                dockerImage.push()
+                }
+             }
+          }
+       }
+
+         stage('Scan'){
             steps {
                 sh '''
+                 docker ps 
+                 
                  docker container ls
-                 IMAGE=eoliveiralorente/api-s3:latest
+                 IMAGE=$(docker pull eoliveiralorente/api-s3:latest)
                  docker run -d --name db arminc/clair-db:latest
                  sleep 2
                  docker run -p 6060:6060 --link db:postgres -d --name clair arminc/clair-local-scan:latest
@@ -43,17 +55,6 @@ environment {
                '''
             }
         }
-
-        stage('Docker push') {
-            steps {
-                script {
-                docker.withRegistry('https://registry.hub.docker.com',registryCredential ) {
-                dockerImage.push()
-                }
-             }
-          }
-       }
-
         stage('Deploy') {
             steps {
                 withCredentials([file(credentialsId: 'd52f91b2-fc33-4442-b030-921750c2250f', variable: 'kubeconfig')]){
