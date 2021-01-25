@@ -27,7 +27,7 @@ environment {
         stage('Scan'){
             steps {
                 sh '''
-                 docker container prune -a
+                 docker container ls
                  IMAGE= $(docker build -t eoliveiralorente/api-s3:lastest .)
                  docker run -d --name db arminc/clair-db:latest
                  sleep 2
