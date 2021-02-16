@@ -29,8 +29,10 @@ environment {
                 sh '''
                      docker pull arminc/clair-db:latest
                      docker pull arminc/clair-local-scan:v2.1.5_3ce78db2bff803f1198a8659c53a3e79a371a6c9
-                     docker run -d --name db arminc/clair-db
+                     docker rm -f db
+                     docker run -d --name db-scan arminc/clair-db
                      sleep 10
+                     docker rm -f clair
                      docker run -p 6060:6060 --link db:postgres -d --name clair arminc/clair-local-scan:v2.1.5_3ce78db2bff803f1198a8659c53a3e79a371a6c9
                      sleep 1
                      DOCKER_GATEWAY=$(docker network inspect bridge --format "{{range .IPAM.Config}}{{.Gateway}}{{end}}")
@@ -39,7 +41,7 @@ environment {
                      chmod +x clair-scanner
                      touch clair-whitelist.yml
                      echo "Iniciar clair"
-                     ./clair-scanner --ip="$DOCKER_GATEWAY" -r gl-container-scanning-report.json -l clair.log -w clair-whitelist.yml $dockerImage || true
+                     ./clair-scanner --ip="$DOCKER_GATEWAY" -r gl-container-scanning-report.json -l clair.log -w clair-whitelist.yml dockerImage || true
                      cat gl-container-scanning-report.json
                 '''
             }
