@@ -19,11 +19,32 @@ environment {
         stage('Docker build') {
             steps {
                 script {
-                 dockerImage = docker.build registry + ":latest"   
+                 dockerImage = docker.build registry + ":$BUILD_NUMBER"   
               }
             }
         }
         
+        //stage('Scan Vulnerabilidade'){
+        //    steps {
+        //        script {
+        //         docker run -d --name db arminc/clair-db:latest
+        //         sleep 20
+        //         docker run -p 6060:6060 --link db:postgres -d --name clair arminc/clair-local-scan:latest
+        //         sleep 15
+        //         wget https://github.com/arminc/clair-scanner/releases/download/v8/clair-scanner_linux_amd64
+        //         mv clair-scanner_linux_amd64 clair-scanner
+        //         chmod +x clair-scanner
+        //         touch clair-whitelist.yml
+        //         while( ! wget -q -O /dev/null http://docker:6060/v1/namespaces ) ; do sleep 1 ; done
+        //         retries=0
+        //         echo "Iniciar clair"
+        //         while( ! wget -T 10 -q -O /dev/null http://docker:6060/v1/namespaces ) ; do sleep 1 ; echo -n "." ; if [ $retries -eq 10 ] ; then echo " Timeout, aborting." ; exit 1 ; fi ; retries=$(($retries+1)) ; done
+        //         ./clair-scanner -c http://docker:6060 --ip $(hostname -i) -r gl-container-scanning-report.json -l clair.log -w clair-whitelist.yml dockerImage || true
+        //         cat gl-container-scanning-report.json
+        //        }
+        //    }
+        //}
+
         stage('Docker push') {
             steps {
                 script {
@@ -34,27 +55,6 @@ environment {
           }
        }
 
-         stage('Scan'){
-            steps {
-                sh '''
-                 docker ps 
-                 docker rm -f 602b9eebaee9 f986e9e0ae6e
-                 docker container ls
-                 IMAGE=docker.io/eoliveiralorente/api-s3:latest
-                 docker run -d --name db arminc/clair-db:latest
-                 sleep 2
-                 docker run -p 6060:6060 --link db:postgres -d --name clair arminc/clair-local-scan:latest
-                 sleep 2
-                 wget https://github.com/arminc/clair-scanner/releases/download/v8/clair-scanner_linux_amd64
-                 mv clair-scanner_linux_amd64 clair-scanner
-                 chmod +x clair-scanner
-                 touch clair-whitelist.yml
-                 echo "Iniciar clair"
-                 ./clair-scanner -c http://docker:6060 --ip $(hostname -i) -r gl-container-scanning-report.json -l clair.log -w clair-whitelist.yml $IMAGE || true
-                 cat gl-container-scanning-report.json      
-               '''
-            }
-        }
         stage('Deploy') {
             steps {
                 withCredentials([file(credentialsId: 'd52f91b2-fc33-4442-b030-921750c2250f', variable: 'kubeconfig')]){
