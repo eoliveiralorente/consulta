@@ -25,11 +25,10 @@ environment {
         }
         
         stage('Scan Vulnerabilidade'){
-            steps {
-                script {
-                 docker pull arminc/clair-db:2020-12-27
+            sh '''
+                 docker pull arminc/clair-db:latest
                  docker pull arminc/clair-local-scan:v2.1.5_3ce78db2bff803f1198a8659c53a3e79a371a6c9
-                 docker run -d --name db arminc/clair-db:2020-12-27
+                 docker run -d --name db arminc/clair-db
                  sleep 20
                  docker run -p 6060:6060 --link db:postgres -d --name clair arminc/clair-local-scan:v2.1.5_3ce78db2bff803f1198a8659c53a3e79a371a6c9
                  sleep 15
@@ -43,8 +42,7 @@ environment {
                  while( ! wget -T 10 -q -O /dev/null http://docker:6060/v1/namespaces ) ; do sleep 1 ; echo -n "." ; if [ $retries -eq 10 ] ; then echo " Timeout, aborting." ; exit 1 ; fi ; retries=$(($retries+1)) ; done
                  ./clair-scanner -c http://docker:6060 --ip $(hostname -i) -r gl-container-scanning-report.json -l clair.log -w clair-whitelist.yml $dockerImage || true
                  cat gl-container-scanning-report.json
-                }
-            }
+            '''
         }
 
         stage('Docker push') {
