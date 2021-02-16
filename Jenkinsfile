@@ -29,8 +29,10 @@ environment {
                 sh '''
                      docker pull arminc/clair-db:latest
                      docker pull arminc/clair-local-scan:v2.1.5_3ce78db2bff803f1198a8659c53a3e79a371a6c9
-                     docker run -d --name db-scan arminc/clair-db
+                     docker rm db
+                     docker run -d --name db arminc/clair-db
                      sleep 20
+                     docker rm clair
                      docker run -p 6060:6060 --link db:postgres -d --name clair arminc/clair-local-scan:v2.1.5_3ce78db2bff803f1198a8659c53a3e79a371a6c9
                      sleep 15
                      wget https://github.com/arminc/clair-scanner/releases/download/v8/clair-scanner_linux_amd64
