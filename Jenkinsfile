@@ -42,7 +42,7 @@ environment {
                      chmod +x clair-scanner
                      touch clair-whitelist.yml
                      echo "Iniciar clair"
-                     ./clair-scanner --ip="$DOCKER_GATEWAY" -r gl-container-scanning-report.json -l clair.log -w clair-whitelist.yml eoliveiralorente/api-s3:85 || true
+                     ./clair-scanner --ip="$DOCKER_GATEWAY" -r gl-container-scanning-report.json -l clair.log -w clair-whitelist.yml dockerImage || true
                      cat gl-container-scanning-report.json
                 '''
             }
