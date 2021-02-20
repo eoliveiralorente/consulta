@@ -36,12 +36,13 @@ environment {
                      docker ps
                      sleep 10
                      DOCKER_GATEWAY=$(docker network inspect bridge --format "{{range .IPAM.Config}}{{.Gateway}}{{end}}")
+                     HOST_IP = $ (ip -4 addr show docker0 | grep -Po 'inet \ K [\ d.] +')
                      wget https://github.com/arminc/clair-scanner/releases/download/v8/clair-scanner_linux_amd64
                      mv clair-scanner_linux_amd64 clair-scanner
                      chmod +x clair-scanner
                      touch clair-whitelist.yml
                      echo "Iniciar clair"
-                     ./clair-scanner -c http://docker:6060 --ip --ip $(hostname -i) -r gl-container-scanning-report.json -l clair.log -w clair-whitelist.yml $DOCKER_IMAGE || true
+                     ./clair-scanner -c http://docker:6060 --ip --ip $HOST_IP -r gl-container-scanning-report.json -l clair.log -w clair-whitelist.yml $DOCKER_IMAGE || true
                      docker rm -f db
                      docker rm -f clair
                 '''
