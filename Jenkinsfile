@@ -43,7 +43,8 @@ environment {
                      chmod +x clair-scanner
                      touch clair-whitelist.yml
                      echo "Iniciar clair"
-                    ./clair-scanner -c http://docker:6060 --ip $(hostname -i) -l clair.log -w clair-whitelist.yml $DOCKER_IMAGE || true
+                    ./clair-scanner -c http://docker:6060 --ip $(hostname -i)  -r gl-container-scanning-report.json -l clair.log -w clair-whitelist.yml $DOCKER_IMAGE || true
+                    cat gl-container-scanning-report.json 
                 '''
             }
         }
