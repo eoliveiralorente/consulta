@@ -36,7 +36,7 @@ environment {
                      docker ps
                      sleep 10
                      DOCKER_GATEWAY=$(docker network inspect bridge --format "{{range .IPAM.Config}}{{.Gateway}}{{end}}")
-                     HOST_IP = $ (ip -4 addr show docker0 | grep -Po 'inet \ K [\ d.] +')
+                     HOST_IP=$(ip -4 addr show docker0 | grep -Po 'inet \ K [\ d.] +')
                      wget https://github.com/arminc/clair-scanner/releases/download/v8/clair-scanner_linux_amd64
                      mv clair-scanner_linux_amd64 clair-scanner
                      chmod +x clair-scanner
