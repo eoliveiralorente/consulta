@@ -35,6 +35,8 @@ environment {
                      sleep 1
                      DOCKER_IMAGE=eoliveiralorente/api-s3:latest
                      docker pull $DOCKER_IMAGE
+                     docker ps
+                     sleep 10
                      DOCKER_GATEWAY=$(docker network inspect bridge --format "{{range .IPAM.Config}}{{.Gateway}}{{end}}")
                      wget https://github.com/arminc/clair-scanner/releases/download/v8/clair-scanner_linux_amd64
                      mv clair-scanner_linux_amd64 clair-scanner
