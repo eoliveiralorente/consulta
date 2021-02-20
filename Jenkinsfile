@@ -35,14 +35,14 @@ environment {
                      docker rm -f clair
                      docker run -p 6060:6060 --link db:postgres -d --name clair arminc/clair-local-scan:v2.1.5_3ce78db2bff803f1198a8659c53a3e79a371a6c9
                      sleep 1
-                     dockerImage = docker.build registry + ":$BUILD_NUMBER"
+                     DOCKER_IMAGE = eoliveiralorente/api-s3":$BUILD_NUMBER"
                      DOCKER_GATEWAY=$(docker network inspect bridge --format "{{range .IPAM.Config}}{{.Gateway}}{{end}}")
                      wget https://github.com/arminc/clair-scanner/releases/download/v8/clair-scanner_linux_amd64
                      mv clair-scanner_linux_amd64 clair-scanner
                      chmod +x clair-scanner
                      touch clair-whitelist.yml
                      echo "Iniciar clair"
-                     ./clair-scanner --ip="$DOCKER_GATEWAY" -r gl-container-scanning-report.json -l clair.log -w clair-whitelist.yml dockerImage || true
+                     ./clair-scanner --ip="$DOCKER_GATEWAY" -r gl-container-scanning-report.json -l clair.log -w clair-whitelist.yml $DOCKER_IMAGE || true
                      cat gl-container-scanning-report.json
                 '''
             }
