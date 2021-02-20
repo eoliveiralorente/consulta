@@ -30,7 +30,7 @@ environment {
                      docker pull arminc/clair-db:latest
                      docker pull arminc/clair-local-scan
                      docker run -d --name db arminc/clair-db:latest
-                     docker run -p 6060:6060 --link db:postgres -d --name clair arminc/clair-local-scan:latest
+                     docker run -p 6060:6061 --link db:postgres -d --name clair arminc/clair-local-scan:latest
                      DOCKER_IMAGE=eoliveiralorente/api-s3:latest
                      docker pull $DOCKER_IMAGE
                      docker ps
@@ -41,7 +41,7 @@ environment {
                      chmod +x clair-scanner
                      touch clair-whitelist.yml
                      echo "Iniciar clair"
-                     ./clair-scanner -c http://$(hostname -i):6060 --ip $(hostname -i) -r gl-container-scanning-report.json -l clair.log -w clair-whitelist.yml $DOCKER_IMAGE || true
+                     ./clair-scanner -c http://docker:6061 --ip $(hostname -i) -r gl-container-scanning-report.json -l clair.log -w clair-whitelist.yml $DOCKER_IMAGE || true
                      docker rm -f db
                      docker rm -f clair
                 '''
