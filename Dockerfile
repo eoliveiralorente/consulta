@@ -19,7 +19,7 @@ RUN chmod +x kubectl
 RUN mv kubectl /usr/local/bin/
 
 #ALterar mensagem
-RUN echo "teste: Funcional" > /var/www/html/index.html
+RUN echo "teste:01" > /var/www/html/index.html
 RUN echo 'ServerName localhost' >> /etc/apache2/apache2.conf
 
 #Iniciar apache
